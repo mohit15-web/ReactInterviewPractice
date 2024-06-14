@@ -5,78 +5,64 @@ const countryList = [
     {
         id: 1,
         name: "India",
-        isCheked: false
+        isChecked: false
     },
     {
         id: 2,
         name: "USA",
-        isCheked: false
+        isChecked: false
     },
     {
         id: 3,
         name: "UAE",
-        isCheked: false
+        isChecked: false
     },
     {
         id: 4,
         name: "Australia",
-        isCheked: false
+        isChecked: false
     },
     {
         id: 5,
         name: "Canada",
-        isCheked: false
+        isChecked: false
     },
 ]
 function TransferList() {
-    const[countries,setCountries] = useState(countryList)
-    const[rightDiv,setRightDiv] = useState([])
+    const [countries, setCountries] = useState(countryList);
+    const [rightDiv, setRightDiv] = useState([]);
+  
     const handleCheck = (id) => {
-        let newArr = countries.map((item) => item.id === id ? {...item,isCheked:!item.isCheked} : item )
-        setCountries(newArr)
-    }
-
+      setCountries(countries.map((item) => item.id === id ? { ...item, isChecked: !item.isChecked } : item));
+    };
+  
     const handleCheckForRight = (id) => {
-        let newArr = countries.map((item) => item.id === id ? {...item,isCheked:!item.isCheked} : item )
-        setRightDiv(newArr)
-    }
-
+      setRightDiv(rightDiv.map((item) => item.id === id ? { ...item, isChecked: !item.isChecked } : item));
+    };
+  
     const sendRight = () => {
-        let updatedArr = countries.filter((item) => item.isCheked === true)
-        let updatedArr2 = countries.filter((item) => item.isCheked === false)
-        let temp = [...rightDiv, ...updatedArr]
-        temp.forEach(element => {
-            element.isCheked = false
-        });
-        setCountries(updatedArr2)
-        setRightDiv(temp)
-    }
-
+      const selectedItems = countries.filter((item) => item.isChecked);
+      const remainingItems = countries.filter((item) => !item.isChecked);
+      setCountries(remainingItems);
+      setRightDiv([...rightDiv, ...selectedItems.map((item) => ({ ...item, isChecked: false }))]);
+    };
+  
     const sendLeft = () => {
-        let updatedArr = rightDiv.filter((item) => item.isCheked === true)
-        let updatedArr2 = rightDiv.filter((item) => item.isCheked === false)
-        let temp = [...countries, ...updatedArr]
-        setCountries(temp)
-        setRightDiv(updatedArr2)
-    }
-
+      const selectedItems = rightDiv.filter((item) => item.isChecked);
+      const remainingItems = rightDiv.filter((item) => !item.isChecked);
+      setRightDiv(remainingItems);
+      setCountries([...countries, ...selectedItems.map((item) => ({ ...item, isChecked: false }))]);
+    };
+  
     const sendRightAll = () => {
-        let temp = []
-        countries.forEach(ele => {
-            temp.push(ele)
-        });
-        setRightDiv(temp)
-        setCountries([])
-    }
-
+      setRightDiv([...rightDiv, ...countries.map((item) => ({ ...item, isChecked: false }))]);
+      setCountries([]);
+    };
+  
     const sendLeftAll = () => {
-        let temp = []
-        rightDiv.forEach(ele => {
-            temp.push(ele)
-        });
-        setRightDiv([])
-        setCountries(temp)
-    }
+      setCountries([...countries, ...rightDiv.map((item) => ({ ...item, isChecked: false }))]);
+      setRightDiv([]);
+    };
 
 
     console.log(countries,"country");
