@@ -22,42 +22,33 @@ function Dragdrop() {
     },
   ]);
 
-  const onDrag = (e, item) => {
-    e.preventDefault();
-    setData(item);
-  };
+  const setDrag = (e,item) => {
+    e.preventDefault()
+    setData(item)
+  }
 
-  const onDrop = (e, category) => {
-    e.preventDefault();
+  const handleDrop =(e,title) => {
+    e.preventDefault()
     setTodo(
-      todo.map((item) =>
-        item.id === data.id ? { ...item, type: category } : item
-      )
-    );
-    setData({});
-  };
+      todo.map((item) => item.id === data.id ? {...item ,type:title } : item)
+    )
+  }
 
   return (
-    <div className="flex justify-center mt-40 space-x-8">
+    <div className="flex justify-center items-center mt-10">
       {headingArr.map((title) => (
-        <div
-          key={title}
-          onDragOver={(e) => e.preventDefault()}
-          onDrop={(e) => onDrop(e, title)}
-          className="w-60 p-4 border border-gray-200 rounded-lg"
+        <div key={title} className="p-4 border h-40 w-40"
+        onDrop={(e) => handleDrop(e,title)}
+        onDragOver={(e) => e.preventDefault()}
         >
-          <h1 className="text-xl font-bold mb-4">{title}</h1>
+          <h1 className="text-2xl font-bold py-2">{title} </h1>
           {todo
             .filter((item) => item.type === title)
             .map((item) => (
-              <p
-                key={item.id}
-                draggable
-                onDrag={(e) => onDrag(e, item)}
-                className="w-full flex justify-between rounded-lg px-6 py-4 cursor-pointer shadow-xl mb-2"
-              >
-                {item.title}
-              </p>
+              <p key={item.id}
+              draggable
+              onDrag={(e) => setDrag(e,item)}
+              > {item.title} </p>
             ))}
         </div>
       ))}
